@@ -1,19 +1,12 @@
 import std.stdio;
 import std.array : array;
-import std.functional : pipe;
-import std.algorithm : filter, map, sum, any, canFind;
+import std.algorithm : filter, map, any, canFind, count;
 import std.string;
 
 int main(string[] args)
 {
 	auto fh = File("input7");
-	int count;
-	foreach(line; fh.byLine.map!(pipe!(idup, strip)))
-	{
-		if(line.strip.supports_ssl)
-			count++;
-	}
-	count.writeln;
+	fh.byLine.map!idup.count!supports_ssl.writeln;
 	return 0;
 }
 
@@ -87,10 +80,8 @@ unittest
 
 	input = "[first]qsdjlqskjdlkqsdj[second]qlsjdjqsh[last]";
 	brackets = input.outside_brackets.array.filter!(a => a.length > 1).array;
-	//assert(brackets[0] == "");
 	assert(brackets[0] == "qsdjlqskjdlkqsdj");
 	assert(brackets[1] == "qlsjdjqsh");
-	//assert(brackets[3] == "");
 }
 
 auto inside_brackets(string input)
@@ -167,21 +158,4 @@ unittest
 	assert("xyx[xyx]xyx".supports_ssl == false);
 	assert("aaa[kek]eke".supports_ssl == true);
 	assert("zazbz[bzb]cdb".supports_ssl == true);
-}
-
-bool has_aba(string sequence)
-{
-	foreach(i; 0 .. sequence.length - 2)
-		if(sequence[i] != sequence[i + 1] && sequence[i] == sequence[i + 2])
-			return true;
-	return false;
-}
-
-unittest
-{
-	assert("abaxyz".has_aba == true);
-	assert("xyxxyx".has_aba == true);
-	assert("aaaeke".has_aba == true);
-	assert("qsdhjkqshd".has_aba == false);
-	assert("zazbzcdb".has_aba == true);
 }

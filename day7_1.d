@@ -1,22 +1,12 @@
 import std.stdio;
 import std.array : array;
-import std.functional : pipe;
-import std.algorithm : filter, map, sum, any;
+import std.algorithm : filter, map, any;
 import std.string;
 
 int main(string[] args)
 {
 	auto fh = File("input7");
-	//int count = fh.byLine.map!(pipe!(idup, supports_tls)).sum;
-	int count;
-	foreach(line; fh.byLine.map!(pipe!(idup, strip)))
-	{
-		if(line.strip.supports_tls)
-			//line.writeln;
-		//else
-			count++;
-	}
-	count.writeln;
+	fh.byLine.map!idup.count!supports_tls.writeln;
 	return 0;
 }
 
@@ -163,9 +153,6 @@ bool supports_tls(string sequence)
 unittest
 {
 	import std.array : array;
-	writeln("abba[mnop]qrst".outside_brackets.array);
-	writeln("abba[mnop]qrst".inside_brackets.array);
-	"gdlrknrmexvaypu[crqappbbcaplkkzb]vhvkjyadjsryysvj[nbvypeadikilcwg]jwxlimrgakadpxu[dgoanojvdvwfabtt]yqsalmulblolkgsheo[foobar]qlkjpogilskj[]qlks".outside_brackets.array.filter!(a => a.length > 1).writeln;
 	assert("abba[mnop]qrst".supports_tls == true);
 	assert("abcd[bddb]xyyx".supports_tls == false);
 	assert("aaaa[qwer]tyui".supports_tls == false);
