@@ -1,12 +1,10 @@
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <vector>
 #include <string>
 #define WIDTH 50
 #define HEIGHT 6
 
-//std::string shift_right(const std::string& row, int amount, size_t max);
 class Screen
 {
 private:
